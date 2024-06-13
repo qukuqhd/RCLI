@@ -51,11 +51,12 @@ fn main() {
         SubCommand::Csv(option) => {
             let mut reader = Reader::from_path(option.input).unwrap();
             //反序列化得到对象列表
-            let records = reader
+            let ret = reader
                 .deserialize()
                 .map(|record| record.unwrap())
                 .collect::<Vec<Player>>();
-            println!("{:?}", records);
+            let json = serde_json::to_string_pretty(&ret).unwrap();
+            std::fs::write(option.output, json).unwrap();
         }
     }
 }
