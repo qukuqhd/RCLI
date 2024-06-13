@@ -21,8 +21,13 @@ fn main() {
                         .collect::<serde_json::Value>()
                 })
                 .collect();
-            let json = serde_json::to_string_pretty(&ret).unwrap();
-            std::fs::write(option.output, json).unwrap();
+
+            let content = match option.format {
+                OutputFormat::Json => serde_json::to_string(&ret).unwrap(),
+                OutputFormat::Toml => toml::to_string(&ret).unwrap(),
+                OutputFormat::Yaml => serde_yaml::to_string(&ret).unwrap(),
+            };
+            std::fs::write(format!("{}.{}", option.output, option.format), content).unwrap();
         }
     }
 }
