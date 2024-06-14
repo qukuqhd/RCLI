@@ -23,7 +23,7 @@ fn main() {
             )
             .unwrap();
             println!("passwd is {}", pwd);
-            println!("密码强度为{:?}", zxcvbn(&pwd, &[]).unwrap().score());
+            eprintln!("密码强度为{:?}", zxcvbn(&pwd, &[]).unwrap().score());
         }
     }
 }
