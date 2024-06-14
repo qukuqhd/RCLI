@@ -5,6 +5,7 @@ use rcli::{
     opt::*,
     process::{csv_convert::process_csv, gen_pass::process_genpass},
 };
+use zxcvbn::zxcvbn;
 fn main() {
     let opts = Opts::parse(); //解析传入的命令行，根据我们定义的数据结构来进行参数合法性的判断
                               //匹配不同可能的命令行选项
@@ -22,6 +23,7 @@ fn main() {
             )
             .unwrap();
             println!("passwd is {}", pwd);
+            println!("密码强度为{:?}", zxcvbn(&pwd, &[]).unwrap().score());
         }
     }
 }
